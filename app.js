@@ -10,6 +10,7 @@ const indexRouter = require('./routes/index');
 const signupRouter = require('./routes/signup');
 const usersRouter = require('./routes/user');
 const postsRouter = require('./routes/posts');
+const imageRouter = require('./routes/image');
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use('/', indexRouter);
 app.use('/signup', signupRouter);
 app.use('/user', usersRouter);
 app.use('/posts', postsRouter);
+app.use('/image', imageRouter);
 app.use(HttpControllers.notFound);
 
 module.exports = app;
