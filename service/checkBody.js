@@ -1,29 +1,25 @@
-const { handleError  } = require('./handles');
+const { appError } = require('./handles');
 
-function checkBody(res, name, data){
+function checkBody(name, data, next){
   const required = {
     user: ["name", "email"],
     post: ["user", "content"],
   };
   let count = 0;
-  try {
-    if (data instanceof Array && typeof data === 'object') {
-      throw '資料必須為物件'
+  if (data instanceof Array &&  typeof data === 'object') {
+    appError(400, '資料必須為物件', next);
+  }
+  required[name].forEach((item) => {
+    if (data[item] === undefined) {
+      appError(400, `「${item}」為必要欄位`, next);
+    } else if (data[item] === "" || data[item].length === 0) {
+      appError(400, `「${item}」不能為空值`, next);
+    } else {
+      count += 1;
     }
-    required[name].forEach((item) => {
-      if (data[item] === undefined) {
-        throw `「${item}」為必要欄位`
-      } else if (data[item] === "" || data[item].length === 0) {
-        throw `「${item}」不能為空值`
-      } else {
-        count += 1;
-      }
-    });
-    if (count === required[name].length) {
-      return true
-    }
-  } catch(error) {
-    handleError(res, 400, 40002, error);
+  });
+  if (count === required[name].length) {
+    return true
   }
 };
 

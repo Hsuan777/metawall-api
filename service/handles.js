@@ -9,7 +9,7 @@ const handles = {
     }));
     res.end();
   },
-  handleError(res, status, detailCode , message) {
+  handleError(res, status, detailCode , message, next) {
     const errorStatusCode = {
       205: 'Reset Content',
       400: {
@@ -22,10 +22,16 @@ const handles = {
     const outputMessage = errorStatusCode[status][detailCode] || errorStatusCode[status];
     res.writeHead(status, headers);
     res.write(JSON.stringify({
-      status: 'false',
+      status: 'error',
       message: outputMessage
     }));
     res.end();
+  },
+  appError(httpStatus, errMessage, next) {
+    const error = new Error(errMessage);
+    error.statusCode = httpStatus;
+    error.isOperational = true;
+    next(error);
   }
 }
 
