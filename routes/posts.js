@@ -4,7 +4,7 @@ const PostsControllers = require('../controllers/posts');
 const HttpControllers = require('../controllers/http');
 const handleErrorAsync = require("../service/handleErrorAsync");
 
-router.get('/', (req, res) => PostsControllers.getPosts(req, res));
+router.get('/', handleErrorAsync((req, res, next) => PostsControllers.getPosts(req, res, next)));
 router.post('/', handleErrorAsync((req, res, next) => PostsControllers.postPost(req, res, next)));
 router.delete('/', handleErrorAsync((req, res, next) => PostsControllers.deletePosts(req, res, next)));
 router.delete('/:id', handleErrorAsync((req, res, next) => PostsControllers.deletePost(req, res, next)));
