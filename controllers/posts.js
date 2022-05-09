@@ -32,7 +32,7 @@ const posts = {
     const postId = req.params.id;
     const result = await Post.findByIdAndDelete(postId);
     if (result) handleSuccess(res, '刪除資料成功');
-    else appError(400, '無此 ID', next);
+    else appError(40002, next);
   },
   async patchPost(req, res, next) {
     const postId = req.params.id
@@ -41,7 +41,7 @@ const posts = {
     if (isPass) {
       const result = await Post.findByIdAndUpdate(postId, data);
       if (result) handleSuccess(res, '修改資料成功');
-      else appError(400, '無此 ID', next);
+      else appError(40002, next);
     }
   }
 }

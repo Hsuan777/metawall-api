@@ -7,13 +7,13 @@ function checkBody(name, data, next){
   };
   let count = 0;
   if (data instanceof Array &&  typeof data === 'object') {
-    appError(400, '資料必須為物件', next);
+    appError(40004, next);
   }
   required[name].forEach((item) => {
     if (data[item] === undefined) {
-      appError(400, `「${item}」為必要欄位`, next);
+      appError(40003, next, `「${item}」為必要欄位`);
     } else if (data[item] === "" || data[item].length === 0) {
-      appError(400, `「${item}」不能為空值`, next);
+      appError(40003, next, `「${item}」不能為空值`);
     } else {
       count += 1;
     }
