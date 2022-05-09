@@ -67,7 +67,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:3005/posts",
+					"raw": "http://127.0.0.1:3005/posts/deleteAll",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -77,7 +77,8 @@
 					],
 					"port": "3005",
 					"path": [
-						"posts"
+						"posts",
+						"deleteAll"
 					]
 				}
 			},
@@ -89,7 +90,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:3005/posts/62639d730454f9102af776fc",
+					"raw": "http://127.0.0.1:3005/posts/delete/62639d730454f9102af776fc",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -100,6 +101,7 @@
 					"port": "3005",
 					"path": [
 						"posts",
+						"delete",
 						"62639d730454f9102af776fc"
 					]
 				}
@@ -121,7 +123,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:3005/posts/626b8bb3efddafee298135d1",
+					"raw": "http://127.0.0.1:3005/posts/62787d01dacc7c876a3c184",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -132,7 +134,7 @@
 					"port": "3005",
 					"path": [
 						"posts",
-						"626b8bb3efddafee298135d1"
+						"62787d01dacc7c876a3c184"
 					]
 				}
 			},
