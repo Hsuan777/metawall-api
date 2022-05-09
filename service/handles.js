@@ -1,5 +1,3 @@
-const headers = require('./headers');
-
 const handles = {
   handleSuccess(res, data) {
     res.status(200).json({
