@@ -58,8 +58,11 @@ app.use(function(err, req, res, next) {
 })
 
 // 若有未知情況的 catch
-process.on('unhandledRejection', (err, promise) => {
-  console.log('未知的 rejection:', promise, '原因:', err);
+process.on('unhandled Rejection', (err, promise) => {
+  console.error('Unhandled Rejection!');
+  if (process.env.NODE_ENV === 'dev') {
+    console.log('未知的 rejection:', promise, '原因:', err);
+  }
 })
 
 module.exports = app;
