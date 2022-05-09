@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 dotenv.config({path: './config.env'});
 
 const image = {
-  async uploadToImgur(req, res) {
+  async uploadToImgur(req, res, next) {
     try {
       const client = new ImgurClient({ accessToken: process.env.ACCESS_TOKEN });
       const response = await client.upload({
