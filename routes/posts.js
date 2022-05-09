@@ -2,10 +2,7 @@ const express = require('express');
 const router = express.Router();
 const PostsControllers = require('../controllers/posts');
 const HttpControllers = require('../controllers/http');
-const appError = require("../service/appError");
 const handleErrorAsync = require("../service/handleErrorAsync");
-
-
 
 router.get('/', (req, res) => PostsControllers.getPosts(req, res));
 router.post('/', handleErrorAsync((req, res, next) => PostsControllers.postPost(req, res, next)));
