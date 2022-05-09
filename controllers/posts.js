@@ -30,18 +30,24 @@ const posts = {
   },
   async deletePost(req, res, next) {
     const postId = req.params.id;
-    const result = await Post.findByIdAndDelete(postId);
-    if (result) handleSuccess(res, '刪除資料成功');
-    else appError(40002, next);
+    try {
+      await Post.findByIdAndDelete(postId);
+      handleSuccess(res, '刪除資料成功');
+    } catch {
+      appError(40002, next);
+    }
   },
   async patchPost(req, res, next) {
     const postId = req.params.id
     const data = req.body;
     const isPass  = checkBody('post', data, next);
     if (isPass) {
-      const result = await Post.findByIdAndUpdate(postId, data);
-      if (result) handleSuccess(res, '修改資料成功');
-      else appError(40002, next);
+      try {
+        await Post.findByIdAndUpdate(postId, data);
+        handleSuccess(res, '修改資料成功');
+      } catch {
+        appError(40002, next);
+      }
     }
   }
 }
