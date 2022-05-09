@@ -2,7 +2,7 @@ const { appError } = require('./handles');
 
 function checkBody(name, data, next){
   const required = {
-    user: ["name", "email"],
+    user: ["name", "email", "password"],
     post: ["user", "content"],
   };
   let count = 0;

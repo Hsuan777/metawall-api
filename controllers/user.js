@@ -3,7 +3,7 @@ const User = require('../model/user');
 const checkBody = require('../service/checkBody');
 
 const user = {
-  async addUser(req, res) {
+  async addUser(req, res, next) {
     const data = req.body;
     const isPass = checkBody(res, 'user', data);
     if (isPass) {
