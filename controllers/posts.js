@@ -1,4 +1,4 @@
-const {handleSuccess, handleError, appError} = require('../service/handles');
+const {handleSuccess, appError} = require('../service/handles');
 const Post = require('../model/post');
 const checkBody = require('../service/checkBody');
 

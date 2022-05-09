@@ -7,24 +7,6 @@ const handles = {
       data: data
     })
   },
-  handleError(res, status, detailCode , message, next) {
-    const errorStatusCode = {
-      205: 'Reset Content',
-      400: {
-        40001: '無對應資料',
-        40002: message,
-        40003: '無此 ID'
-      },
-      404: '無此要求'
-    };
-    const outputMessage = errorStatusCode[status][detailCode] || errorStatusCode[status];
-    res.writeHead(status, headers);
-    res.write(JSON.stringify({
-      status: 'error',
-      message: outputMessage
-    }));
-    res.end();
-  },
   appError(httpStatus, next, errMessage) {
     const errorStatusCode = {
       205: 'Reset Content',
