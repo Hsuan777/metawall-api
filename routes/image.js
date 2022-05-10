@@ -7,6 +7,7 @@ const multer = require('multer');
 const upload = multer({dest: './uploads/'});
 
 router.post('/', upload.single('image'), handleErrorAsync((req, res, next) => ImageControllers.uploadToImgur(req, res, next)));
+router.delete('/delete/:id', upload.single('image'), handleErrorAsync((req, res, next) => ImageControllers.deleteImage(req, res, next)));
 router.options('/', (req, res) => HttpControllers.cors(req, res));
 
 module.exports = router;
