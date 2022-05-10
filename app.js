@@ -20,7 +20,6 @@ process.on('uncaughtException', error => {
 require('./connections');
 
 const indexRouter = require('./routes/index');
-const signupRouter = require('./routes/signup');
 const usersRouter = require('./routes/user');
 const postsRouter = require('./routes/posts');
 const imageRouter = require('./routes/image');
@@ -35,7 +34,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
 app.use('/', indexRouter);
-app.use('/signup', signupRouter);
 app.use('/user', usersRouter);
 app.use('/posts', postsRouter);
 app.use('/image', imageRouter);

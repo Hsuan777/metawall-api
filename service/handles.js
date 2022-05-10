@@ -8,6 +8,7 @@ const handles = {
   appError(httpStatus, next, errMessage) {
     const errorStatusCode = {
       205: 'Reset Content',
+      401: '驗證失敗',
       40001: '無對應資料',
       40002: '無此 ID',
       40003: errMessage,
