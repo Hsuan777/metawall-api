@@ -1,4 +1,5 @@
 const fs = require('fs');
+const fse = require('fs-extra');
 const { ImgurClient } = require('imgur');
 const { handleSuccess, appError } = require('../service/handles');
 const dotenv = require('dotenv');
@@ -19,7 +20,8 @@ const image = {
         name: response.data.name,
         hash: response.data.deletehash
       }
-      handleSuccess(res, responseData)
+      handleSuccess(res, responseData);
+      fse.remove(req.file.path);
     }).catch(() => appError(40001, next))
   },
   async deleteImage(req, res, next) {
@@ -31,7 +33,7 @@ const image = {
       },
     };
     axios(settings).then((response) => {
-      if (response.data) {
+      if (response.success === 200) {
         handleSuccess(res, '刪除成功');
       } else {
         appError(40001, next)
