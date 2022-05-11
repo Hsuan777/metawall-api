@@ -11,9 +11,9 @@ const image = {
   async uploadToImgur(req, res, next) {
     await client.upload({
       image: fs.createReadStream(req.file.path),
-      name: req.file.filename,
+      name:  req.file.filename,
       type: 'stream',
-      album: 'd1nJxAN'
+      album: process.env.ACCESS_ALBUM
     }).then((response) => {
       if (response.success) {
         const responseData = {
