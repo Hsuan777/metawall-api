@@ -8,7 +8,7 @@ const resError = {
       })
     } else {
       // console.error('出現重大錯誤', err);
-      rea.status(500).json({
+      res.status(500).json({
         status:'error',
         message: "系統錯誤，請洽系統管理員。"
       })

@@ -15,14 +15,22 @@ const image = {
       type: 'stream',
       album: 'd1nJxAN'
     }).then((response) => {
-      const responseData = {
-        link: response.data.link,
-        name: response.data.name,
-        hash: response.data.deletehash
+      if (response.success) {
+        const responseData = {
+          link: response.data.link,
+          name: response.data.name,
+          hash: response.data.deletehash
+        }
+        handleSuccess(res, responseData);
+      } else {
+        appError(40001, next)
       }
-      handleSuccess(res, responseData);
-      fse.remove(req.file.path);
-    }).catch(() => appError(40001, next))
+    })
+    fs.readdir('./uploads', (err, files) => {
+      files.forEach(file => {
+        fse.remove(`./uploads/${file}`)
+      });
+    });
   },
   async deleteImage(req, res, next) {
     const settings = {
@@ -33,11 +41,13 @@ const image = {
       },
     };
     axios(settings).then((response) => {
-      if (response.success === 200) {
+      if (response.data.success) {
         handleSuccess(res, '刪除成功');
       } else {
         appError(40001, next)
       }
+    }).catch(() => {
+      appError(40001, next)
     })
   }
 }
