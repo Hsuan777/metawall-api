@@ -1,6 +1,7 @@
 const {handleSuccess, appError} = require('../service/handles');
 const Post = require('../model/post');
 const checkBody = require('../service/checkBody');
+const Imgur = require('../utils/imgur');
 
 const posts = {
   async getPosts(req, res) {
@@ -18,8 +19,11 @@ const posts = {
     const data = req.body;
     const isPass = checkBody('post', data, next);
     if (isPass) {
+      if (req.files.length > 0) {
+        data.image = await Imgur.upload(req.files)
+      }
       const newPost = await Post.create({
-        ...data
+        ...data,
       });
       handleSuccess(res, newPost);
     } 

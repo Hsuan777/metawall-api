@@ -10,10 +10,10 @@ const postSchema = new Schema(
       type: String,
       required: [true, "{PATH} 為必要欄位"]
     },
-    image: {
-      type:String,
-      default: ""
-    },
+    image: [{
+      url: String,
+      deleteHash: String,
+    }],
     createdAt: {
       type: Date,
       default: Date.now,
