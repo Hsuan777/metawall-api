@@ -1,39 +1,54 @@
-const fs = require('fs');
-// const fse = require('fs-extra');
 const FormData = require('form-data');
 const axios = require('axios');
 
-const options = {
-  method: 'post',
-  url: 'https://api.imgur.com/3/image/',
-  headers: {
-    Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
-  },
-  mimeType: 'multipart/form-data',
-};
-
 const Imgur = {
-  upload(files) {
+  async upload(files) {
     const imagesData = [];
-    files.forEach(async (item) => {
+    for (const file in files) {
       const formData = new FormData();
-      const encode_image = fs.readFileSync(item.path).toString('base64');
-      formData.append('image', encode_image);
+      const options = {
+        method: 'post',
+        url: 'https://api.imgur.com/3/image/',
+        headers: {
+          Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
+          ...formData.getHeaders()
+        },
+        mimeType: 'multipart/form-data',
+      };
+      formData.append('image', Buffer.from(files[file].buffer));
       formData.append('album', process.env.ACCESS_ALBUM);
-      await axios({ ...options, data: form })
+      await axios({ ...options, data: formData })
         .then((res) => {
-          console.log(res);
           imagesData.push({
             deleteHash: res.data.data.deletehash,
-            name: res.data.data.name,
             url: res.data.data.link,
           });
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err.response.data);
         });
-    })
+    }
     return imagesData;
+  },
+  async delete(files) {
+    let result = '';
+    for (const deleteHash in files) {
+      const settings = {
+        method: "delete",
+        url: `https://api.imgur.com/3/image/${files[deleteHash]}`,
+        headers: {
+          Authorization: `Bearer ${process.env.ACCESS_TOKEN}`
+        },
+      };
+      await axios(settings).then((response) => {
+        if (response.data.success) {
+          result = '刪除成功';
+        }
+      }).catch(() => {
+        result = '刪除失敗';
+      })
+    }
+    return result
   }
 }
 
