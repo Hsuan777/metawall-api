@@ -22,7 +22,6 @@ require('./connections');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/user');
 const postsRouter = require('./routes/posts');
-const imageRouter = require('./routes/image');
 
 const app = express();
 
@@ -36,7 +35,6 @@ app.use(cors());
 app.use('/', indexRouter);
 app.use('/user', usersRouter);
 app.use('/posts', postsRouter);
-app.use('/image', imageRouter);
 app.use(HttpControllers.notFound);
 
 // express 自訂錯誤處理
