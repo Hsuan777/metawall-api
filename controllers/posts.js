@@ -1,5 +1,5 @@
 const {handleSuccess, appError} = require('../service/handles');
-const Post = require('../model/post');
+const Post = require('../model/postModel');
 const checkBody = require('../service/checkBody');
 const Imgur = require('../utils/imgur');
 

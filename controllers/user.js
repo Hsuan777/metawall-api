@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
 const {handleSuccess, appError} = require('../service/handles');
-const User = require('../model/user');
+const User = require('../model/userModel');
 const checkBody = require('../service/checkBody');
 const { generateSendJWT } = require('../service/auth');
 

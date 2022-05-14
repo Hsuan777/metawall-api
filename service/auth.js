@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { appError } = require('../service/handles');
 const handleErrorAsync = require('../service/handleErrorAsync');
-const User = require('../model/user');
+const User = require('../model/userModel');
 
 const isAuth = handleErrorAsync(async (req, res, next) => {
   // 確認 token 是否存在
