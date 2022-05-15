@@ -2,6 +2,8 @@ const {handleSuccess, appError} = require('../service/handles');
 const Post = require('../model/postModel');
 const checkBody = require('../service/checkBody');
 const Imgur = require('../utils/imgur');
+const {checkBody} = require('../service/roles');
+
 
 const posts = {
   async getPosts(req, res) {
@@ -17,16 +19,18 @@ const posts = {
   },
   async postPost(req, res, next) {
     const data = req.body;
-    const isPass = checkBody('post', data, next);
-    if (isPass) {
-      if (req.files.length > 0) {
-        data.image = await Imgur.upload(req.files)
-      }
-      const newPost = await Post.create({
-        ...data,
-      });
-      handleSuccess(res, newPost);
-    } 
+    if (!roles.checkBody('post', data, next)) return
+    if (req.files.length > 0) {
+      data.image = await Imgur.upload(req.files)
+    }
+    const newPost = await Post.create({
+      ...data,
+    });
+    handleSuccess(res, newPost);
+
+    // const isPass = checkBody('post', data, next);
+    // if (isPass) {
+    // } 
   },
   async deletePosts(req, res, next) {
     await Post.deleteMany({});
