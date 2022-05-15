@@ -33,19 +33,32 @@ const user = {
     }
     if (user && auth) generateSendJWT(200, res, user);
   },
-  async profile(req, res, next) {
+  async getProfile(req, res, next) {
     handleSuccess(res, req.user) 
+  },
+  async updateProfile(req, res, next) {
+    const data = req.body;
+    const userExisted = await User.findById(req.user.id);
+    console.log(userExisted);
+    console.log(data);
+    if (!roles.checkName(data.name, next)) return
+    if (!userExisted) return appError(40002, next);
+    const updateUser = await User.findByIdAndUpdate(req.user.id, {
+      name: data.name,
+      sex: data.sex
+    });
+    handleSuccess(res, updateUser) 
   },
   async updatePassword(req, res, next) {
     const data = req.body;
-    if (data.password !== data.confirmPassword) {
-      appError(40003, next, '密碼不一致');
-    }
+    const userExisted = await User.findById(req.user.id);
+    if (!roles.checkPassword(data.password, data.confirmPassword, next)) return
+    if (!userExisted) return appError(40002, next);
     const newPassword = await bcrypt.hash(data.password, 12);
-    const user = await User.findByIdAndUpdate(req.user.id, {
+    const updateUser =  await User.findByIdAndUpdate(req.user.id, {
       password: newPassword
     });
-    generateSendJWT(200, res, user);
+    generateSendJWT(200, res, updateUser);
   },
   
 }

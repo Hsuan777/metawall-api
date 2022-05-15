@@ -18,7 +18,7 @@ const userScheam = new Schema(
     },
     sex: {
       type: String,
-      enum: ['male', 'female']
+      enum: ['male', 'female', ""]
     },
     password: {
       type: String,
