@@ -10,7 +10,7 @@ const isAuth = handleErrorAsync(async (req, res, next) => {
   if (headersAuth && headersAuth.startsWith('Bearer')) {
     token = headersAuth.split(' ')[1];
   }
-  if (!token) appError(401, next);
+  if (!token) return appError(401, next);
   // 驗證 token
   const decoded = await new Promise((resolve, reject) => {
     jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
@@ -19,6 +19,7 @@ const isAuth = handleErrorAsync(async (req, res, next) => {
     })
   })
   const currentUser = await User.findById(decoded.id);
+  if (!currentUser) return appError(40001, next)
   req.user = currentUser;
   next();
 });

@@ -1,7 +1,7 @@
 const {handleSuccess, appError} = require('../service/handles');
 const Post = require('../model/postModel');
 const Imgur = require('../utils/imgur');
-const {checkBody} = require('../service/roles');
+const roles = require('../service/roles');
 
 
 const posts = {
@@ -26,10 +26,6 @@ const posts = {
       ...data,
     });
     handleSuccess(res, newPost);
-
-    // const isPass = checkBody('post', data, next);
-    // if (isPass) {
-    // } 
   },
   async deletePosts(req, res, next) {
     await Post.deleteMany({});
