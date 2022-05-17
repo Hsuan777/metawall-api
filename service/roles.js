@@ -4,7 +4,7 @@ const User = require('../model/userModel');
 
 const requiredBody = {
   user: ["name", "email", "password"],
-  post: ["user", "content"],
+  post: ["content"],
 };
 const keywords = {
   politician: ['蔡英文', '朱立倫', '蘇貞昌', '陳時中', '柯文哲', '侯友宜'],

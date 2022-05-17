@@ -19,7 +19,7 @@ const isAuth = handleErrorAsync(async (req, res, next) => {
     })
   })
   const currentUser = await User.findById(decoded.id);
-  if (!currentUser) return appError(40001, next)
+  if (!currentUser) return appError(40003, next, '無此帳號，請聯絡管理員')
   req.user = currentUser;
   next();
 });
@@ -33,11 +33,11 @@ const generateSendJWT = (statusCode, res, user) => {
   user.password = undefined;
   const data = {
     user: {
-      token,
       name: user.name,
-      id: user._id
+      avatar: user.avatar,
     }
   }
+  res.set('Authorization', 'Bearer ' + token);
   res.status(statusCode).json({
     status: 'success',
     data: data
