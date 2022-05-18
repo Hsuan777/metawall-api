@@ -11,6 +11,16 @@
 				"disableBodyPruning": true
 			},
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODA5MmJmZjY0Y2ZmYTU3Nzk4OTY3ZiIsImlhdCI6MTY1Mjc3NDEzMSwiZXhwIjoxNjUzMzc4OTMxfQ.1xN39xaTYD_Cry7qLDkGIDrqNMRRvuqcxyMyxfTGepU",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"body": {
@@ -35,16 +45,32 @@
 		{
 			"name": "『新增單筆』貼文",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODA5MmJmZjY0Y2ZmYTU3Nzk4OTY3ZiIsImlhdCI6MTY1Mjc3NDEzMSwiZXhwIjoxNjUzMzc4OTMxfQ.1xN39xaTYD_Cry7qLDkGIDrqNMRRvuqcxyMyxfTGepU",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"user\": \"626d2625ebb944525a6b8b24\",\r\n    \"image\": \"https://images.unsplash.com/photo-1648737119359-510d4f551382?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1472&q=80\",\r\n    \"content\": \"uuu\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "photos",
+							"type": "file",
+							"src": "/C:/Users/User/Pictures/recommend.jpg"
+						},
+						{
+							"key": "content",
+							"value": "好久不見的太陽!",
+							"type": "text"
 						}
-					}
+					]
 				},
 				"url": {
 					"raw": "https://metawall.herokuapp.com/posts",
@@ -64,18 +90,26 @@
 		{
 			"name": "『刪除所有』貼文",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODA5MmJmZjY0Y2ZmYTU3Nzk4OTY3ZiIsImlhdCI6MTY1Mjc3NDEzMSwiZXhwIjoxNjUzMzc4OTMxfQ.1xN39xaTYD_Cry7qLDkGIDrqNMRRvuqcxyMyxfTGepU",
+							"type": "string"
+						}
+					]
+				},
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:3005/posts/deleteAll",
-					"protocol": "http",
+					"raw": "https://metawall.herokuapp.com/posts/deleteAll",
+					"protocol": "https",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"metawall",
+						"herokuapp",
+						"com"
 					],
-					"port": "3005",
 					"path": [
 						"posts",
 						"deleteAll"
@@ -87,18 +121,26 @@
 		{
 			"name": "『刪除單筆』貼文",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODA5MmJmZjY0Y2ZmYTU3Nzk4OTY3ZiIsImlhdCI6MTY1Mjc3NDEzMSwiZXhwIjoxNjUzMzc4OTMxfQ.1xN39xaTYD_Cry7qLDkGIDrqNMRRvuqcxyMyxfTGepU",
+							"type": "string"
+						}
+					]
+				},
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:3005/posts/delete/62639d730454f9102af776fc",
-					"protocol": "http",
+					"raw": "https://metawall.herokuapp.com/posts/delete/62639d730454f9102af776fc",
+					"protocol": "https",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"metawall",
+						"herokuapp",
+						"com"
 					],
-					"port": "3005",
 					"path": [
 						"posts",
 						"delete",
@@ -111,11 +153,21 @@
 		{
 			"name": "『編輯單筆』貼文",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODA5MmJmZjY0Y2ZmYTU3Nzk4OTY3ZiIsImlhdCI6MTY1Mjc3NDEzMSwiZXhwIjoxNjUzMzc4OTMxfQ.1xN39xaTYD_Cry7qLDkGIDrqNMRRvuqcxyMyxfTGepU",
+							"type": "string"
+						}
+					]
+				},
 				"method": "PATCH",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"V\",\n    \"tags\": [\"心得\"],\n    \"type\": \"group\",\n    \"image\": \"https://images.unsplash.com/photo-1648737119359-510d4f551382?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1472&q=80\",\n    \"content\": \"week2\"\n}",
+					"raw": "{\n    \"user\": \"626d2625ebb944525a6b8b24\",\n    \"image\": \"https://images.unsplash.com/photo-1648737119359-510d4f551382?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1472&q=80\",\n    \"content\": \"cc\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -123,18 +175,16 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:3005/posts/62787d01dacc7c876a3c184",
-					"protocol": "http",
+					"raw": "https://metawall.herokuapp.com/posts/6278c79a124948ef4dc7d8ed",
+					"protocol": "https",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"metawall",
+						"herokuapp",
+						"com"
 					],
-					"port": "3005",
 					"path": [
 						"posts",
-						"62787d01dacc7c876a3c184"
+						"6278c79a124948ef4dc7d8ed"
 					]
 				}
 			},
@@ -146,15 +196,13 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:3005/wqew",
-					"protocol": "http",
+					"raw": "https://metawall.herokuapp.com/wqew",
+					"protocol": "https",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"metawall",
+						"herokuapp",
+						"com"
 					],
-					"port": "3005",
 					"path": [
 						"wqew"
 					]
@@ -163,35 +211,13 @@
 			"response": []
 		},
 		{
-			"name": "OPTIONS",
-			"request": {
-				"method": "OPTIONS",
-				"header": [],
-				"url": {
-					"raw": "http://127.0.0.1:3005/posts",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "3005",
-					"path": [
-						"posts"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "「新增單筆」使用者",
+			"name": "「註冊」使用者",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"name\": \"Ada\",\n  \"email\": \"AdaWang@gmail.com\",\n  \"avatar\": \"https://thumb.fakeface.rest/thumb_female_27_5a94a297efb15caf0e3d769ce1694953e8bf33e2.jpg\"\n}",
+					"raw": "{\r\n  \"name\": \"六角超人3\",\r\n  \"email\": \"hexsuperman3@gmail.com\",\r\n  \"avatar\": \"https://thumb.fakeface.rest/thumb_female_27_5a94a297efb15caf0e3d769ce1694953e8bf33e2.jpg\",\r\n  \"password\": \"hexsuperman2024\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -199,17 +225,212 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:3005/signup",
-					"protocol": "http",
+					"raw": "https://metawall.herokuapp.com/user/signup",
+					"protocol": "https",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"metawall",
+						"herokuapp",
+						"com"
 					],
-					"port": "3005",
 					"path": [
+						"user",
 						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "「登入」使用者",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"hexsuperman@gmail.com\",\r\n  \"password\": \"hexsuperman2023\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://metawall.herokuapp.com/user/signin",
+					"protocol": "https",
+					"host": [
+						"metawall",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"user",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "「是否已登入」使用者",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODA5MmJmZjY0Y2ZmYTU3Nzk4OTY3ZiIsImlhdCI6MTY1Mjc4MDQ5NCwiZXhwIjoxNjUzMzg1Mjk0fQ.n6yI5w3pyoMeLoXPPHi-6T2RDwaUHGmU4jvQKhEzDM8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://metawall.herokuapp.com/user/check",
+					"protocol": "https",
+					"host": [
+						"metawall",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"user",
+						"check"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "「取得資料」使用者",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODA5MmJmZjY0Y2ZmYTU3Nzk4OTY3ZiIsImlhdCI6MTY1Mjc4MDQ5NCwiZXhwIjoxNjUzMzg1Mjk0fQ.n6yI5w3pyoMeLoXPPHi-6T2RDwaUHGmU4jvQKhEzDM8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://metawall.herokuapp.com/user/profile",
+					"protocol": "https",
+					"host": [
+						"metawall",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"user",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "「登入並修改密碼」使用者",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODA5MmJmZjY0Y2ZmYTU3Nzk4OTY3ZiIsImlhdCI6MTY1Mjc4MDQ5NCwiZXhwIjoxNjUzMzg1Mjk0fQ.n6yI5w3pyoMeLoXPPHi-6T2RDwaUHGmU4jvQKhEzDM8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"password\": \"hexsuperman2023\",\r\n  \"confirmPassword\": \"hexsuperman2023\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://metawall.herokuapp.com/user/updatePassword",
+					"protocol": "https",
+					"host": [
+						"metawall",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"user",
+						"updatePassword"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "「登入並修改個人資料」使用者",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODA5MmJmZjY0Y2ZmYTU3Nzk4OTY3ZiIsImlhdCI6MTY1Mjc4MDQ5NCwiZXhwIjoxNjUzMzg1Mjk0fQ.n6yI5w3pyoMeLoXPPHi-6T2RDwaUHGmU4jvQKhEzDM8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"hexsuperman\",\r\n  \"sex\": \"male\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://metawall.herokuapp.com/user/profile",
+					"protocol": "https",
+					"host": [
+						"metawall",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"user",
+						"profile"
 					]
 				}
 			},
