@@ -3,6 +3,7 @@ const { handleSuccess, appError } = require('../service/handles');
 const User = require('../model/userModel');
 const { generateSendJWT } = require('../service/auth');
 const roles = require('../service/roles');
+const Imgur = require('../utils/imgur');
 
 const user = {
   async signup(req, res, next) {
@@ -53,6 +54,7 @@ const user = {
   async updateProfile(req, res, next) {
     const data = req.body;
     const userExisted = await User.findById(req.user.id);
+    let userAvatar = '';
     if (!roles.checkName(data.name, next)) return
     if (!userExisted) return appError(40002, next);
     if (data.sex === 'male' || data.sex === 'female' || data.sex === "") {
@@ -60,11 +62,14 @@ const user = {
     } else {
       return appError(40003, next, '請選擇性別或不公開');
     }
-    const updateUser = await User.findByIdAndUpdate(req.user.id, {
-      name: data.name,
-      sex: data.sex
-    });
-    handleSuccess(res, updateUser)
+    if (req.files.length === 1) {
+      userAvatar = await Imgur.upload(req.files);
+      data.avatar = userAvatar[0].url;
+    }
+    const result = await User.findByIdAndUpdate(req.user.id, {
+      ...data
+    }, {new: true});
+    handleSuccess(res, result)
   },
   async updatePassword(req, res, next) {
     const data = req.body;
