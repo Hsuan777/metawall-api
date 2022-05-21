@@ -42,6 +42,35 @@ const posts = {
     if (!roles.checkBody('post', req.body, next)) return
     Post.findByIdAndUpdate(req.params.id, req.body);
     handleSuccess(res, '修改資料成功');
+  },
+  async postPostLikes(req, res, next) {
+    const searchPostId = await Post.findById(req.params.id);
+    if (!searchPostId) return appError(40003, next, '找不到貼文喔');
+    const _id = req.params.id;
+    await Post.findOneAndUpdate(
+      { _id },
+      { $addToSet: { likes: req.user.id } }
+    );
+    res.status(201).json({
+      status: 'success',
+      postId: _id,
+      userId: req.user.id
+    });
+    // handleSuccess(res, '已按讚');
+  },
+  async deletePostLikes(req, res, next) {
+    const searchPostId = await Post.findById(req.params.id);
+    if (!searchPostId) return appError(40003, next, '找不到貼文喔');
+    const _id = req.params.id;
+    await Post.findOneAndUpdate(
+      { _id },
+      { $pull: { likes: req.user.id } }
+    );
+    res.status(201).json({
+      status: 'success',
+      postId: _id,
+      userId: req.user.id
+    });
   }
 }
 
