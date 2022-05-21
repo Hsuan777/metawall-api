@@ -16,6 +16,13 @@ const posts = {
     }).sort(timeSort);
     handleSuccess(res, posts);
   },
+  async getPost(req, res) {
+    const posts = await Post.findById(req.params.id).populate({
+      path: "user",
+      select: "name avatar"
+    });
+    handleSuccess(res, posts);
+  },
   async postPost(req, res, next) {
     if (!roles.checkBody('post', req.body, next)) return
     const newPostData = {
@@ -46,7 +53,13 @@ const posts = {
   async postPostLikes(req, res, next) {
     const searchPostId = await Post.findById(req.params.id);
     if (!searchPostId) return appError(40003, next, '找不到貼文喔');
+
     const _id = req.params.id;
+    const hasLikes = await Post.findOne(
+      { _id, likes: { $in: [req.user.id] } } 
+    )
+    if (hasLikes) return this.deletePostLikes(req, res, next);
+    
     await Post.findOneAndUpdate(
       { _id },
       { $addToSet: { likes: req.user.id } }
@@ -56,7 +69,6 @@ const posts = {
       postId: _id,
       userId: req.user.id
     });
-    // handleSuccess(res, '已按讚');
   },
   async deletePostLikes(req, res, next) {
     const searchPostId = await Post.findById(req.params.id);
@@ -68,8 +80,7 @@ const posts = {
     );
     res.status(201).json({
       status: 'success',
-      postId: _id,
-      userId: req.user.id
+      message: '已退讚'
     });
   }
 }
