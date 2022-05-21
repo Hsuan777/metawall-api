@@ -14,7 +14,7 @@ const isAuth = handleErrorAsync(async (req, res, next) => {
   // 驗證 token
   const decoded = await new Promise((resolve, reject) => {
     jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
-      if (err) reject(appError(40003, next, '未登入，請重新登入'));
+      if (err) reject(appError(401, next));
       else resolve(payload); // 會回傳物件資料
     })
   })
