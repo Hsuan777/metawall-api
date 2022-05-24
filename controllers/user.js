@@ -4,6 +4,7 @@ const User = require('../model/userModel');
 const { generateSendJWT } = require('../service/auth');
 const roles = require('../service/roles');
 const Imgur = require('../utils/imgur');
+const axios = require('axios');
 
 const user = {
   async signup(req, res, next) {
@@ -13,6 +14,36 @@ const user = {
     if (!roles.checkName(data.name, next)) return
     if (!roles.checkEmail(data.email, emailExisted, next)) return
     if (!roles.checkPassword(data.password, data.confirmPassword, next)) return
+    data.password = await bcrypt.hash(data.password, 12);
+    const newUser = await User.create({
+      ...data
+    });
+    generateSendJWT(201, res, newUser);
+  },
+  async thirdPartySignup(req, res, next) {
+    const data = {};
+    const headersAuth = req.headers.authorization;
+    let token;
+    if (headersAuth && headersAuth.startsWith('Bearer')) {
+      token = headersAuth.split(' ')[1];
+    }
+    switch (req.body.provider) {
+      case 'google':
+        await axios.get(`https://oauth2.googleapis.com/tokeninfo?id_token=${token}`).then((res) => {
+          if (res.status === 200 && res.data.email !== undefined) {
+            data.name = res.data.given_name;
+            data.email = res.data.email;
+            data.avatar = res.data.picture;
+            data.password = token
+          }
+        })
+        break;
+      default:
+        break;
+    }
+    
+    const emailExisted = await User.findOne({ email: data.email });
+    if (!roles.checkEmail(data.email, emailExisted, next)) return
     data.password = await bcrypt.hash(data.password, 12);
     const newUser = await User.create({
       ...data
