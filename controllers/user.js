@@ -30,11 +30,11 @@ const user = {
     switch (req.body.provider) {
       case 'google':
         await axios.get(`https://oauth2.googleapis.com/tokeninfo?id_token=${token}`).then((res) => {
-          if (res.status === 200 && res.data.email !== undefined) {
+          if (res.data.email_verified) {
             data.name = res.data.given_name;
             data.email = res.data.email;
             data.avatar = res.data.picture;
-            data.password = token
+            data.password = res.data.email
           }
         })
         break;
@@ -64,6 +64,35 @@ const user = {
       return appError(40003, next, '信箱不正確')
     }
     if (user && auth) generateSendJWT(200, res, user);
+  },
+  async thirdPartySignin(req, res, next) {
+    const { provider } = req.body;
+    if (!provider) {
+      return appError(40003, next, '提供方不可為空');
+    };
+    const headersAuth = req.headers.authorization;
+    let token;
+    if (headersAuth && headersAuth.startsWith('Bearer')) {
+      token = headersAuth.split(' ')[1];
+    }
+    let user;
+    switch (req.body.provider) {
+      case 'google':
+        await axios.get(`https://oauth2.googleapis.com/tokeninfo?id_token=${token}`).then(async (res) => {
+          if (res.data.email_verified) {
+            const email = res.data.email;
+            user = await User.findOne({ email }).select('+password');
+          } else {
+            appError(40003, next, '找不到 googole 使用者');
+          }
+        }).catch(() => {
+          appError(40003, next, 'Google 登入失敗');
+        })
+        break;
+      default:
+        break;
+    }
+    if (user) generateSendJWT(200, res, user);
   },
   async check(req, res, next) {
     if (!req.user) return appError(40003, next, '無此帳號，請聯繫管理員');
