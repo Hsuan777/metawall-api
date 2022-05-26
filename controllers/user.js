@@ -82,8 +82,11 @@ const user = {
           if (res.data.email_verified) {
             const email = res.data.email;
             user = await User.findOne({ email }).select('+password');
+            if (!user) {
+              return appError(40003, next, '找不到 google 使用者');
+            }
           } else {
-            appError(40003, next, '找不到 googole 使用者');
+            return  appError(40003, next, '找不到 google 使用者');
           }
         }).catch(() => {
           appError(40003, next, 'Google 登入失敗');
