@@ -28,6 +28,15 @@ const posts = {
     const posts = await Post.find({user});
     handleSuccess(res, {results: posts.length, posts});
   },
+  async getLikeList(req, res) {
+    const likeList = await Post.find({
+      likes: { $in: [req.user.id] }
+    }).populate({
+      path:"user",
+      select:"name _id"
+    });
+    handleSuccess(res, {likeList});
+  },
   async postPost(req, res, next) {
     if (!roles.checkBody('post', req.body, next)) return
     const newPostData = {
