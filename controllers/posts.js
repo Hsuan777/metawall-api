@@ -25,7 +25,10 @@ const posts = {
   },
   async getUserPosts(req, res) {
     const user = req.params.id;
-    const posts = await Post.find({user});
+    const posts = await Post.find({user}).populate({
+      path:"user",
+      select:"name _id avatar"
+    });;
     handleSuccess(res, {results: posts.length, posts});
   },
   async getLikeList(req, res) {
@@ -33,7 +36,7 @@ const posts = {
       likes: { $in: [req.user.id] }
     }).populate({
       path:"user",
-      select:"name _id"
+      select:"name _id avatar"
     });
     handleSuccess(res, {likeList});
   },
