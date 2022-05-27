@@ -23,6 +23,11 @@ const posts = {
     });
     handleSuccess(res, posts);
   },
+  async getUserPosts(req, res) {
+    const user = req.params.id;
+    const posts = await Post.find({user});
+    handleSuccess(res, {results: posts.length, posts});
+  },
   async postPost(req, res, next) {
     if (!roles.checkBody('post', req.body, next)) return
     const newPostData = {
