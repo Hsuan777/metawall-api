@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const { handleSuccess, appError } = require('../service/handles');
 const User = require('../model/userModel');
+const Post = require('../model/postModel');
 const { generateSendJWT } = require('../service/auth');
 const roles = require('../service/roles');
 const Imgur = require('../utils/imgur');
@@ -144,7 +145,68 @@ const user = {
     });
     generateSendJWT(200, res, updateUser);
   },
-
+  async getFollowList(req, res, next) {
+    const list = await User.find({
+      followers: { $in: [req.user.id] }
+    }).populate({
+      path:"user",
+      select:"name _id avatar"
+    });
+    handleSuccess(res, list);
+  },
+  async follow(req, res, next) {
+    if (req.params.id === req.user.id) {
+      return next(appError(401,'自己無法使用追蹤功能',next));
+    }
+    // update 自己追蹤的
+    await User.updateOne(
+      // 查詢 自己的 id 且 追蹤的名單內無對方的 id
+      {
+        _id: req.user.id,
+        'following.user': { $ne: req.params.id }
+      },
+      // 若沒有重複則加入
+      {
+        $addToSet: { following: { user: req.params.id } }
+      }
+    );
+    // update 對方有誰追蹤他
+    await User.updateOne(
+      // 查詢 對方的 id 且 追蹤的名單內無自己的 id
+      {
+        _id: req.params.id,
+        'followers.user': { $ne: req.user.id }
+      },
+      {
+        $addToSet: { followers: { user: req.user.id } }
+      }
+    );
+    handleSuccess(res, '已成功追蹤')
+  },
+  async unFollow(req, res, next) {
+    if (req.params.id === req.user.id) {
+      return next(appError(401,'自己無法使用追蹤功能',next));
+    }
+    await User.updateOne(
+      {
+        _id: req.user.id,
+        'following.user': { $ne: req.params.id }
+      },
+      {
+        $pull: { following: { user: req.params.id } }
+      }
+    );
+    await User.updateOne(
+      {
+        _id: req.params.id,
+        'followers.user': { $ne: req.user.id }
+      },
+      {
+        $pull: { followers: { user: req.user.id } }
+      }
+    );
+    handleSuccess(res, '已成功退追蹤')
+  },
 }
 
 module.exports = user;

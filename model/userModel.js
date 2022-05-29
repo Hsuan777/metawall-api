@@ -25,7 +25,31 @@ const userScheam = new Schema(
       required: [true, '{PATH} 為必要欄位'],
       minlength: 8,
       select: false
-    }
+    },
+    followers: [
+      {
+        user: { 
+          type: Schema.ObjectId, 
+          ref: 'User' 
+        },
+        createdAt: {
+          type: Date,
+          default: Date.now
+        }
+      }
+    ],
+    following: [
+      {
+        user: { 
+          type: Schema.ObjectId, 
+          ref: 'User' 
+        },
+        createdAt: {
+          type: Date,
+          default: Date.now
+        }
+      }
+    ]
   },
   {
     versionKey: false

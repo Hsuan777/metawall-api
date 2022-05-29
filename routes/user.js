@@ -1,21 +1,27 @@
 const express = require('express');
 const router = express.Router();
 const UserControllers = require('../controllers/user');
-const HttpControllers = require('../controllers/http');
 const handleErrorAsync = require("../service/handleErrorAsync");
 const { isAuth } = require('../service/auth');
 const upload = require('../service/upload');
 const cors = require('cors');
 
 router.get('/check', cors({ exposedHeaders: 'Authorization' }), isAuth, handleErrorAsync((req, res, next) => UserControllers.check(req, res, next)));
-router.get('/profile', isAuth, handleErrorAsync((req, res, next) => UserControllers.profile(req, res, next)));
+
+// signup/signin
 router.post('/signup', handleErrorAsync((req, res, next) => UserControllers.signup(req, res, next)));
-router.post('/TPSignup', handleErrorAsync((req, res, next) => UserControllers.thirdPartySignup(req, res, next)));
 router.post('/signin', cors({ exposedHeaders: 'Authorization' }), handleErrorAsync((req, res, next) => UserControllers.signin(req, res, next)));
+router.post('/TPSignup', handleErrorAsync((req, res, next) => UserControllers.thirdPartySignup(req, res, next)));
 router.post('/TPSignin', cors({ exposedHeaders: 'Authorization' }), handleErrorAsync((req, res, next) => UserControllers.thirdPartySignin(req, res, next)));
+
+// profile
+router.get('/profile', isAuth, handleErrorAsync((req, res, next) => UserControllers.profile(req, res, next)));
 router.post('/updatePassword', isAuth, handleErrorAsync((req, res, next) => UserControllers.updatePassword(req, res, next)));
 router.patch('/profile', isAuth, upload.array('photo', 1), handleErrorAsync((req, res, next) => UserControllers.updateProfile(req, res, next)));
 
-router.options('/', (req, res) => HttpControllers.cors(req, res));
+// follow
+router.get('/followList', isAuth, handleErrorAsync((req, res, next) => UserControllers.getFollowList(req, res, next)));
+router.post('/:id/follow', isAuth, handleErrorAsync((req, res, next) => UserControllers.follow(req, res, next)));
+router.delete('/:id/unFollow', isAuth, handleErrorAsync((req, res, next) => UserControllers.unFollow(req, res, next)));
 
 module.exports = router;
