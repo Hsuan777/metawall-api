@@ -116,6 +116,7 @@ const user = {
   },
   async updateProfile(req, res, next) {
     const data = req.body;
+    const avatar = req.files[0];
     const userExisted = await User.findById(req.user.id);
     let userAvatar = '';
     if (!roles.checkName(data.name, next)) return
@@ -123,7 +124,7 @@ const user = {
     if (data.sex !== 'male' && data.sex !== 'female' && data.sex !== "") {
       return appError(40003, next, '請選擇性別或不公開');
     }
-    if (req.files.length === 1) {
+    if (avatar) {
       userAvatar = await Imgur.upload(req.files, 107, 107);
       data.avatar = userAvatar[0].url;
     }
