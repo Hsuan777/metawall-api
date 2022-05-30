@@ -103,6 +103,7 @@ const user = {
     res.send({
       status: true,
       data: {
+        id: req.user._id,
         name: req.user.name,
         avatar: req.user.avatar,
       },
