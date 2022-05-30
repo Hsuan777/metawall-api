@@ -10,14 +10,14 @@ const posts = {
     const findObj = {};
     req.query.userId !== undefined ? findObj.user = req.query.userId : "";
     req.query.q !== undefined ? findObj.content = new RegExp(req.query.q) : "";
-    const timeSort = req.query.timeSort == "asc" ? "createdAt" : "-createdAt";
+    const timeSort = req.query.timeSort === "asc" ? 1 : -1;
     const posts = await Post.find(findObj).populate({
       path: "user",
       select: "name avatar"
     }).populate({
       path: 'comments',
       select: 'comment user'
-    }).sort(timeSort);
+    }).sort({createdAt: timeSort});
     handleSuccess(res, posts);
   },
   async getPost(req, res) {
