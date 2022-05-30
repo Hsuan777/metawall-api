@@ -36,7 +36,7 @@ const roles = {
   checkName(name, next) {
     let result = false;
     // 暱稱 是否低於或高於指定字串長度
-    if (name.length <= 2 || name.length > 20) {
+    if (name.length < 2 || name.length > 20) {
       appError(40003, next, '暱稱需為 2 ~ 20 字元');
       return result;
     };

@@ -1,8 +1,9 @@
 const FormData = require('form-data');
 const axios = require('axios');
+const sharp = require('sharp');
 
 const Imgur = {
-  async upload(files) {
+  async upload(files, imgWidth, imgHeight) {
     const imagesData = [];
     for (const file in files) {
       const formData = new FormData();
@@ -15,7 +16,9 @@ const Imgur = {
         },
         mimeType: 'multipart/form-data',
       };
-      formData.append('image', Buffer.from(files[file].buffer));
+      const imageBuffer = sharp(Buffer.from(files[file].buffer))
+        .resize({ width: imgWidth, height: imgHeight });
+      formData.append('image', imageBuffer);
       formData.append('album', process.env.ACCESS_ALBUM);
       await axios({ ...options, data: formData })
         .then((res) => {
