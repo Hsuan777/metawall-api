@@ -14,11 +14,12 @@ const userScheam = new Schema(
     },
     avatar: {
       type: String,
-      default: "https://fakeimg.pl/50x50/",
+      default: "https://i.imgur.com/L8RBPEt.png",
     },
     sex: {
       type: String,
-      enum: ['male', 'female', ""]
+      enum: ['male', 'female', ''],
+      default: ''
     },
     password: {
       type: String,
