@@ -35,11 +35,14 @@ const posts = {
     handleSuccess(res, post);
   },
   async getUserPosts(req, res) {
-    const user = req.params.id;
-    const posts = await Post.find({user}).populate({
+    const findObj = {};
+    findObj.user = req.params.id;
+    req.query.q !== undefined ? findObj.content = new RegExp(regexEscape(req.query.q)) : "";
+    const timeSort = req.query.timeSort === "asc" ? 1 : -1;
+    const posts = await Post.find({findObj}).populate({
       path:"user",
       select:"name _id avatar"
-    });;
+    }).sort({createdAt: timeSort});
     handleSuccess(res, {results: posts.length, posts});
   },
   async getLikeList(req, res) {
