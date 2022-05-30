@@ -4,12 +4,15 @@ const Comment = require('../model/commentsModel');
 const Imgur = require('../utils/imgur');
 const roles = require('../service/roles');
 
+const regexEscape = (str) => {
+  return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+} 
 
 const posts = {
   async getPosts(req, res) {
     const findObj = {};
     req.query.userId !== undefined ? findObj.user = req.query.userId : "";
-    req.query.q !== undefined ? findObj.content = new RegExp(req.query.q) : "";
+    req.query.q !== undefined ? findObj.content = new RegExp(regexEscape(req.query.q)) : "";
     const timeSort = req.query.timeSort === "asc" ? 1 : -1;
     const posts = await Post.find(findObj).populate({
       path: "user",
