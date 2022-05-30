@@ -26,6 +26,11 @@ const userScheam = new Schema(
       minlength: 8,
       select: false
     },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      select: false
+    },
     followers: [
       {
         user: { 

@@ -1,5 +1,6 @@
 const { handleSuccess, appError } = require('../service/handles');
 const Post = require('../model/postModel');
+const Comment = require('../model/commentsModel');
 const Imgur = require('../utils/imgur');
 const roles = require('../service/roles');
 
@@ -13,15 +14,22 @@ const posts = {
     const posts = await Post.find(findObj).populate({
       path: "user",
       select: "name avatar"
+    }).populate({
+      path: 'comments',
+      select: 'comment user'
     }).sort(timeSort);
     handleSuccess(res, posts);
   },
   async getPost(req, res) {
-    const posts = await Post.findById(req.params.id).populate({
+    const post = await Post.findById(req.params.id).populate({
       path: "user",
       select: "name avatar"
+    }).populate({
+      path: 'comments',
+      select: 'comment user'
     });
-    handleSuccess(res, posts);
+    if (!post) return appError(40003, next, '找不到貼文喔')
+    handleSuccess(res, post);
   },
   async getUserPosts(req, res) {
     const user = req.params.id;
@@ -59,6 +67,8 @@ const posts = {
     handleSuccess(res, '刪除所有資料成功');
   },
   async deletePost(req, res, next) {
+    const searchPostId = await Post.findById(req.params.id);
+    if (!searchPostId) return appError(40003, next, '找不到貼文喔');
     await Post.findByIdAndDelete(req.params.id);
     handleSuccess(res, '刪除資料成功')
   },
@@ -99,7 +109,31 @@ const posts = {
       status: 'success',
       message: '已退讚'
     });
-  }
+  },
+  async postPostComment(req, res, next) {
+    // 使用者 (留言者)
+    const user = req.user.id;
+    // 留言在哪一則貼文
+    const post = req.params.id;
+    const {comment} = req.body;
+    const newComment = await Comment.create({
+      post,
+      user,
+      comment
+    });
+    res.status(201).json({
+        status: 'success',
+        data: {
+          comments: newComment
+        }
+    });
+  },
+  async deletePostComment(req, res, next) {
+    const searchCommentId = await Comment.findById(req.params.id);
+    if (!searchCommentId) return appError(40003, next, '沒有這則留言喔');
+    await Comment.findByIdAndDelete(req.params.id);
+    handleSuccess(res, '刪除留言成功')
+  },
 }
 
 module.exports = posts;
