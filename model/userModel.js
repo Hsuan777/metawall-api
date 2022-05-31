@@ -36,7 +36,7 @@ const userScheam = new Schema(
       {
         user: { 
           type: Schema.ObjectId, 
-          ref: 'User' 
+          ref: 'user' 
         },
         createdAt: {
           type: Date,
@@ -48,7 +48,7 @@ const userScheam = new Schema(
       {
         user: { 
           type: Schema.ObjectId, 
-          ref: 'User' 
+          ref: 'user' 
         },
         createdAt: {
           type: Date,
