@@ -20,7 +20,9 @@ router.post('/updatePassword', isAuth, handleErrorAsync((req, res, next) => User
 router.patch('/profile', isAuth, upload.array('photo', 1), handleErrorAsync((req, res, next) => UserControllers.updateProfile(req, res, next)));
 
 // follow
-router.get('/followList', isAuth, handleErrorAsync((req, res, next) => UserControllers.getFollowList(req, res, next)));
+router.get('/followingList', isAuth, handleErrorAsync((req, res, next) => UserControllers.getFollowingList(req, res, next)));
+router.get('/:id/followersList', isAuth, handleErrorAsync((req, res, next) => UserControllers.getFollowersList(req, res, next)));
+router.get('/:id/checkFollow', isAuth, handleErrorAsync((req, res, next) => UserControllers.checkFollow(req, res, next)));
 router.post('/:id/follow', isAuth, handleErrorAsync((req, res, next) => UserControllers.follow(req, res, next)));
 router.delete('/:id/unFollow', isAuth, handleErrorAsync((req, res, next) => UserControllers.unFollow(req, res, next)));
 
