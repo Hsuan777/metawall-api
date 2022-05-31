@@ -145,11 +145,21 @@ const user = {
     });
     generateSendJWT(200, res, updateUser);
   },
-  async getFollowList(req, res, next) {
+  async getFollowingList(req, res, next) {
     // 尋找 followers 欄位內，包含已登入 user 的 id
     const followList = [];
-    const followingObject = await User.findOne({ _id: req.user._id}, {following: 1});
+    const followingObject = await User.findOne({_id: req.user._id}, {following: 1});
     for (let item of followingObject.following) {
+      const data = await User.findOne({_id: item.user._id}, {name: 1, avatar: 1})
+      followList.push(data)
+    }
+    handleSuccess(res, followList);
+  },
+  async getFollowersList(req, res, next) {
+    // 尋找 followers 欄位內，包含已登入 user 的 id
+    const followList = [];
+    const followingObject = await User.findOne({_id: req.params.id}, {followers: 1});
+    for (let item of followingObject.followers) {
       const data = await User.findOne({_id: item.user._id}, {name: 1, avatar: 1})
       followList.push(data)
     }
@@ -160,7 +170,7 @@ const user = {
       return appError(40003, next, '自己無法使用追蹤功能');
     }
     // update 自己追蹤的
-    const follorwingResult = await User.updateOne(
+    const updateFollowingResult = await User.updateOne(
       // 查詢 自己的 id 且 追蹤的名單內無對方的 id
       {
         _id: req.user.id,
@@ -172,7 +182,7 @@ const user = {
       }
     );
     // update 對方有誰追蹤他
-    const follorwsResult = await User.updateOne(
+    const updateFollowersResult = await User.updateOne(
       // 查詢 對方的 id 且 追蹤的名單內無自己的 id
       {
         _id: req.params.id,
@@ -182,33 +192,49 @@ const user = {
         $addToSet: { followers: { user: req.user.id } }
       }
     );
-    console.log(follorwingResult, follorwsResult);
-    handleSuccess(res, '已成功追蹤')
+    if (updateFollowingResult.modifiedCount && updateFollowersResult.modifiedCount) {
+      handleSuccess(res, '已成功追蹤')
+    } else {
+      return appError(40003, next, '已追蹤');
+    }
   },
   async unFollow(req, res, next) {
     if (req.params.id === req.user.id) {
       return appError(40003, next, '自己無法使用追蹤功能');
     }
-    await User.updateOne(
+    const updateFollowingResult = await User.updateOne(
       {
         _id: req.user.id,
-        'following.user': { $ne: req.params.id }
       },
       {
         $pull: { following: { user: req.params.id } }
       }
     );
-    await User.updateOne(
+    const updateFollowersResult = await User.updateOne(
       {
         _id: req.params.id,
-        'followers.user': { $ne: req.user.id }
       },
       {
         $pull: { followers: { user: req.user.id } }
       }
     );
-    handleSuccess(res, '已成功退追蹤')
+    if (updateFollowingResult.modifiedCount && updateFollowersResult.modifiedCount) {
+      handleSuccess(res, '已成功退追蹤');
+    } else {
+      return appError(40003, next, '未追蹤');
+    }
   },
+  async checkFollow(req, res, next) {
+    const findFollowingResult = await User.findOne(
+      // 查詢 自己的 id 且 追蹤的名單是否有對方的 id
+      {
+        _id: req.user.id,
+        'following.user': { $in: req.params.id }
+      },
+    );
+    if (!findFollowingResult) handleSuccess(res, '未追蹤');
+    else handleSuccess(res, '已追蹤')
+  }
 }
 
 module.exports = user;
