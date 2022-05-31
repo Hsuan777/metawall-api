@@ -148,9 +148,10 @@ const user = {
   async getFollowingList(req, res, next) {
     // 尋找 followers 欄位內，包含已登入 user 的 id
     const followList = [];
-    const followingObject = await User.findOne({_id: req.user._id}, {following: 1});
-    for (let item of followingObject.following) {
-      const data = await User.findOne({_id: item.user._id}, {name: 1, avatar: 1})
+    const user = await User.findOne({_id: req.user._id}, {following: 1});
+    for (let item of user.following) {
+      const data = await User.findOne({_id: item.user._id}, {name: 1, avatar: 1});
+      data.createdAt = item.createdAt;
       followList.push(data)
     }
     handleSuccess(res, followList);
@@ -158,9 +159,10 @@ const user = {
   async getFollowersList(req, res, next) {
     // 尋找 followers 欄位內，包含已登入 user 的 id
     const followList = [];
-    const followingObject = await User.findOne({_id: req.params.id}, {followers: 1});
-    for (let item of followingObject.followers) {
-      const data = await User.findOne({_id: item.user._id}, {name: 1, avatar: 1})
+    const user = await User.findOne({_id: req.params.id}, {followers: 1});
+    for (let item of user.followers) {
+      const data = await User.findOne({_id: item.user._id}, {name: 1, avatar: 1});
+      data.createdAt = item.createdAt;
       followList.push(data)
     }
     handleSuccess(res, followList);
