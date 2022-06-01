@@ -19,7 +19,7 @@ const posts = {
       select: "name avatar"
     }).populate({
       path: 'comments',
-      select: 'comment user'
+      select: 'comment user createdAt'
     }).sort({createdAt: timeSort});
     handleSuccess(res, posts);
   },
@@ -29,7 +29,7 @@ const posts = {
       select: "name avatar"
     }).populate({
       path: 'comments',
-      select: 'comment user'
+      select: 'comment user createdAt'
     });
     if (!post) return appError(40003, next, '找不到貼文喔')
     handleSuccess(res, post);
