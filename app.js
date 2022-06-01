@@ -3,6 +3,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const HttpControllers = require('./controllers/http');
 const resError = require('./service/resError');
 
@@ -18,6 +20,17 @@ process.on('uncaughtException', error => {
 
 // 連線 mongodb
 require('./connections');
+
+// passport and Google Signin
+passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "http://localhost:3005/user/google/callback"
+  },
+  function (accessToken, refreshToken, profile, cb) {
+    return cb(null, profile._json);
+  }
+));
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/user');

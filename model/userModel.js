@@ -55,7 +55,11 @@ const userScheam = new Schema(
           default: Date.now
         }
       }
-    ]
+    ],
+    googleId: {
+      type: String,
+      select: false,
+    },
   },
   {
     versionKey: false
