@@ -1,50 +1,24 @@
 const bcrypt = require('bcryptjs');
-const { handleSuccess, appError } = require('../service/handles');
+const uuid = require('uuid');
 const User = require('../model/userModel');
-const Post = require('../model/postModel');
+const { handleSuccess, appError } = require('../service/handles');
 const { generateSendJWT } = require('../service/auth');
 const roles = require('../service/roles');
 const Imgur = require('../utils/imgur');
 const axios = require('axios');
 
+let tempData = {};
+
 const user = {
   async signup(req, res, next) {
     const data = req.body;
     const emailExisted = await User.findOne({ email: data.email });
+    const userCount = await User.count();
+    if (userCount >= 500) return appError(40003, next, '已達到註冊上限');
     if (!roles.checkBody('user', data, next)) return
     if (!roles.checkName(data.name, next)) return
     if (!roles.checkEmail(data.email, emailExisted, next)) return
     if (!roles.checkPassword(data.password, data.confirmPassword, next)) return
-    data.password = await bcrypt.hash(data.password, 12);
-    const newUser = await User.create({
-      ...data
-    });
-    generateSendJWT(201, res, newUser);
-  },
-  async thirdPartySignup(req, res, next) {
-    const data = {};
-    const headersAuth = req.headers.authorization;
-    let token;
-    if (headersAuth && headersAuth.startsWith('Bearer')) {
-      token = headersAuth.split(' ')[1];
-    }
-    switch (req.body.provider) {
-      case 'google':
-        await axios.get(`https://oauth2.googleapis.com/tokeninfo?id_token=${token}`).then((res) => {
-          if (res.data.email_verified) {
-            data.name = res.data.given_name;
-            data.email = res.data.email;
-            data.avatar = res.data.picture;
-            data.password = res.data.email
-          }
-        })
-        break;
-      default:
-        break;
-    }
-    
-    const emailExisted = await User.findOne({ email: data.email });
-    if (!roles.checkEmail(data.email, emailExisted, next)) return
     data.password = await bcrypt.hash(data.password, 12);
     const newUser = await User.create({
       ...data
@@ -66,37 +40,54 @@ const user = {
     }
     if (user && auth) generateSendJWT(200, res, user);
   },
-  async thirdPartySignin(req, res, next) {
-    const { provider } = req.body;
-    if (!provider) {
-      return appError(40003, next, '提供方不可為空');
+  async googleSignIn(req, res, next) {
+    const data = {
+      googleId: req.user.sub,
+      email: req.user.email,
+      name: req.user.name,
+      avatar: req.user.picture,
     };
-    const headersAuth = req.headers.authorization;
-    let token;
-    if (headersAuth && headersAuth.startsWith('Bearer')) {
-      token = headersAuth.split(' ')[1];
+    this.thirdPartySignin('google', data, res);
+  },
+  async thirdPartySignin(provider, data, res) {
+    tempData = {};
+    const webSiteCallbackUrl = 'http://localhost:3000/#/callback'
+    const user = await User.findOne({ email: data.email });
+    const onceToken = uuid.v4();
+    const onceTokenHash = await bcrypt.hash(await onceToken, 12);
+    tempData.onceToken = onceToken;
+    // 信箱已存在 且 已使用第三方登入
+    if (user && user[`${provider}Id`]) {
+      tempData.user = user;
+      res.redirect(webSiteCallbackUrl + `?token=${onceTokenHash}`);
+    } else if (user && user[`${provider}Id`] === undefined) {
+      //  信箱已存在 且 未使用第三方登入
+      user[`${provider}Id`] = data[`${provider}Id`];
+      tempData.user = user;
+      res.redirect(webSiteCallbackUrl + `?onceToken=${onceTokenHash}`);
+    } else {
+      // 信箱不存在 且 使用第三方登入
+      // 檢查使用者是否已達限制數量
+      const userCount = await User.count();
+      if (userCount >= 500) return appError(40003, next, '已達到註冊上限');
+      
+      // 第三方登入無須密碼，但 user model 需要
+      const signUpData = {...data};
+      const new_uuid = await uuid.v4();
+      signUpData.password = await bcrypt.hash(new_uuid, 12);
+      const newUser = await User.create({
+        ...signUpData
+      });
+      tempData.user = newUser;
+      res.redirect(webSiteCallbackUrl + `?token=${onceTokenHash}`);
     }
-    let user;
-    switch (req.body.provider) {
-      case 'google':
-        await axios.get(`https://oauth2.googleapis.com/tokeninfo?id_token=${token}`).then(async (res) => {
-          if (res.data.email_verified) {
-            const email = res.data.email;
-            user = await User.findOne({ email }).select('+password');
-            if (!user) {
-              return appError(40003, next, '找不到 google 使用者');
-            }
-          } else {
-            return  appError(40003, next, '找不到 google 使用者');
-          }
-        }).catch(() => {
-          appError(40003, next, 'Google 登入失敗');
-        })
-        break;
-      default:
-        break;
-    }
-    if (user) generateSendJWT(200, res, user);
+  },
+  async thirdPartyCallback(req, res, next) {
+    // query.onceToken is Hash
+    const authOnceToken = await bcrypt.compare(tempData.onceToken, req.query.onceToken);
+    if (authOnceToken) generateSendJWT(200, res, tempData.user);
+    else appError(40003, next, '驗證失敗');
+    tempData = {};
   },
   async check(req, res, next) {
     if (!req.user) return appError(40003, next, '無此帳號，請聯繫管理員');
