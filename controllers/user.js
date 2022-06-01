@@ -53,6 +53,7 @@ const user = {
     tempData = {};
     const webSiteCallbackUrl = 'http://localhost:3000/#/callback'
     const user = await User.findOne({ email: data.email });
+    console.log(user);
     const onceToken = uuid.v4();
     const onceTokenHash = await bcrypt.hash(await onceToken, 12);
     tempData.onceToken = onceToken;
@@ -79,7 +80,7 @@ const user = {
         ...signUpData
       });
       tempData.user = newUser;
-      res.redirect(webSiteCallbackUrl + `?token=${onceTokenHash}`);
+      res.redirect(webSiteCallbackUrl + `?onceToken=${onceTokenHash}`);
     }
   },
   async thirdPartyCallback(req, res, next) {
