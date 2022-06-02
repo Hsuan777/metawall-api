@@ -113,7 +113,7 @@ const user = {
       return appError(40003, next, '請選擇性別或不公開');
     }
     if (req.files.length === 1) {
-      userAvatar = await Imgur.upload(req.files, 107, 107);
+      userAvatar = await Imgur.upload(req.files, next, 107, 107);
       data.avatar = userAvatar[0].url;
     }
     const result = await User.findByIdAndUpdate(req.user.id, {
