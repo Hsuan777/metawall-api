@@ -144,8 +144,10 @@ const user = {
   },
   async getFollowersList(req, res, next) {
     // 尋找 followers 欄位內，包含已登入 user 的 id
+    if (req.params.id.length !== 24) return appError(40003, next, '找不到該使用者喔');
     const followList = [];
     const user = await User.findOne({_id: req.params.id}, {followers: 1});
+    if (!user) return appError(40003, next, '找不到該使用者喔');
     for (let item of user.followers) {
       const data = await User.findOne({_id: item.user._id}, {name: 1, avatar: 1});
       data.createdAt = item.createdAt;
