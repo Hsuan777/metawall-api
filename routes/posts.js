@@ -8,7 +8,6 @@ const { isAuth } = require('../service/auth');
 
 router.get('/', isAuth, handleErrorAsync((req, res, next) => PostsControllers.getPosts(req, res, next)));
 router.get('/user/likeList', isAuth, handleErrorAsync((req, res, next) => PostsControllers.getLikeList(req, res, next)));
-router.get('/user/:id', isAuth, handleErrorAsync((req, res, next) => PostsControllers.getUserPosts(req, res, next)));
 router.get('/:id', isAuth, handleErrorAsync((req, res, next) => PostsControllers.getPost(req, res, next)));
 router.post('/', isAuth, upload.array('photos', 10), handleErrorAsync((req, res, next) => PostsControllers.postPost(req, res, next)));
 router.post('/:id/likes', isAuth, handleErrorAsync((req, res, next) => PostsControllers.postPostLikes(req, res, next)));
