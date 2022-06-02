@@ -1,9 +1,11 @@
 const FormData = require('form-data');
 const axios = require('axios');
 const sharp = require('sharp');
+const { appError } = require('../service/handles');
+
 
 const Imgur = {
-  upload(files, imgWidth, imgHeight) {
+  async upload(files, next, imgWidth, imgHeight) {
     const imagesData = [];
     for (const file in files) {
       const formData = new FormData();
@@ -20,20 +22,19 @@ const Imgur = {
         .resize({ width: imgWidth, height: imgHeight });
       formData.append('image', imageBuffer);
       formData.append('album', process.env.ACCESS_ALBUM);
-      axios({ ...options, data: formData })
-        .then((res) => {
-          imagesData.push({
-            deleteHash: res.data.data.deletehash,
-            url: res.data.data.link,
-          });
-        })
-        .catch((err) => {
-          console.log(err.response.data);
+      try {
+        const axiosRes = await axios({ ...options, data: formData });
+        imagesData.push({
+          deleteHash: axiosRes.data.data.deletehash,
+          url: axiosRes.data.data.link,
         });
+      } catch {
+        appError(40003, next, '圖片上傳失敗');
+      }
     }
     return imagesData;
   },
-  delete(files) {
+  async delete(files) {
     let result = '';
     for (const deleteHash in files) {
       const settings = {
@@ -43,13 +44,14 @@ const Imgur = {
           Authorization: `Bearer ${process.env.ACCESS_TOKEN}`
         },
       };
-      axios(settings).then((response) => {
-        if (response.data.success) {
-          result = '刪除成功';
+      try {
+        const axiosRes = await axios(settings);
+        if (axiosRes.data.success) {
+          result = '圖片刪除成功';
         }
-      }).catch(() => {
-        result = '刪除失敗';
-      })
+      } catch {
+        appError(40003, next, '圖片刪除失敗');
+      }
     }
     return result
   }

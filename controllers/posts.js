@@ -50,31 +50,33 @@ const posts = {
       content: req.body.content
     }
     if (req.files.length > 0) {
-      newPostData.image = await Imgur.upload(req.files)
+      newPostData.image = await Imgur.upload(req.files, next)
     }
     const newPost = await Post.create({
       ...newPostData
     });
     handleSuccess(res, newPost);
   },
-  async deletePosts(req, res, next) {
+  async deletePosts(req, res) {
     await Post.deleteMany({});
     handleSuccess(res, '刪除所有資料成功');
   },
   async deletePost(req, res, next) {
-    const searchPostId = await Post.findById(req.params.id);
-    if (!searchPostId) return appError(40003, next, '找不到貼文喔');
+    const searchPost = await Post.findById(req.params.id);
+    if (!searchPost) return appError(40003, next, '找不到貼文喔');
     await Post.findByIdAndDelete(req.params.id);
     handleSuccess(res, '刪除資料成功')
   },
   async patchPost(req, res, next) {
-    if (!roles.checkBody('post', req.body, next)) return
-    Post.findByIdAndUpdate(req.params.id, req.body);
+    const searchPost = await Post.findById(req.params.id);
+    if (!searchPost) return appError(40003, next, '找不到貼文喔');
+    if (!roles.checkBody('post', req.body, next)) return;
+    await Post.findByIdAndUpdate(req.params.id, {content: req.body.content});
     handleSuccess(res, '修改資料成功');
   },
   async postPostLikes(req, res, next) {
-    const searchPostId = await Post.findById(req.params.id);
-    if (!searchPostId) return appError(40003, next, '找不到貼文喔');
+    const searchPost = await Post.findById(req.params.id);
+    if (!searchPost) return appError(40003, next, '找不到貼文喔');
 
     const _id = req.params.id;
     const hasLikes = await Post.findOne(
@@ -93,8 +95,8 @@ const posts = {
     });
   },
   async deletePostLikes(req, res, next) {
-    const searchPostId = await Post.findById(req.params.id);
-    if (!searchPostId) return appError(40003, next, '找不到貼文喔');
+    const searchPost = await Post.findById(req.params.id);
+    if (!searchPost) return appError(40003, next, '找不到貼文喔');
     const _id = req.params.id;
     await Post.findOneAndUpdate(
       { _id },
