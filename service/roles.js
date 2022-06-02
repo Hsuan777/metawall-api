@@ -4,6 +4,8 @@ const User = require('../model/userModel');
 
 const requiredBody = {
   user: ["name", "email", "password"],
+  userProfile: ["name"],
+  userPassword: ["password", "confirmPassword"],
   post: ["content"],
 };
 const keywords = {

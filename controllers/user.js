@@ -102,17 +102,13 @@ const user = {
   },
   async profile(req, res, next) {
     const user = await User.findById(req.user.id);
-    res.send({
-      status: true,
-      data: user,
-    });
+    handleSuccess(res, user)
   },
   async updateProfile(req, res, next) {
     const data = req.body;
-    const userExisted = await User.findById(req.user.id);
     let userAvatar = '';
+    if (!roles.checkBody('userProfile', data, next)) return
     if (!roles.checkName(data.name, next)) return
-    if (!userExisted) return appError(40002, next);
     if (data.sex !== 'male' && data.sex !== 'female' && data.sex !== '') {
       return appError(40003, next, '請選擇性別或不公開');
     }
@@ -127,9 +123,8 @@ const user = {
   },
   async updatePassword(req, res, next) {
     const data = req.body;
-    const userExisted = await User.findById(req.user.id);
+    if (!roles.checkBody('userPassword', data, next)) return
     if (!roles.checkPassword(data.password, data.confirmPassword, next)) return
-    if (!userExisted) return appError(40002, next);
     const newPassword = await bcrypt.hash(data.password, 12);
     const updateUser = await User.findByIdAndUpdate(req.user.id, {
       password: newPassword
