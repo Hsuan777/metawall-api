@@ -12,7 +12,7 @@ const upload = multer({
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg' || file.mimetype === 'image/png') {
       callback(null, true);
     } else {
-      error.message = '檔案必須為 .jpg 或 .jpeg 或 .png';
+      error.message = '檔案格式必須為 .jpg 或 .jpeg 或 .png';
       return callback(error);
     };
     callback(null, true);
