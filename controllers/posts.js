@@ -34,17 +34,6 @@ const posts = {
     if (!post) return appError(40003, next, '找不到貼文喔')
     handleSuccess(res, post);
   },
-  async getUserPosts(req, res) {
-    const findObj = {};
-    findObj.user = req.params.id;
-    req.query.q !== undefined ? findObj.content = new RegExp(regexEscape(req.query.q)) : "";
-    const timeSort = req.query.timeSort === "asc" ? 1 : -1;
-    const posts = await Post.find({findObj}).populate({
-      path:"user",
-      select:"name _id avatar"
-    }).sort({createdAt: timeSort});
-    handleSuccess(res, {results: posts.length, posts});
-  },
   async getLikeList(req, res) {
     const likeList = await Post.find({
       likes: { $in: [req.user.id] }
