@@ -3,7 +3,7 @@ const axios = require('axios');
 const sharp = require('sharp');
 
 const Imgur = {
-  async upload(files, imgWidth, imgHeight) {
+  upload(files, imgWidth, imgHeight) {
     const imagesData = [];
     for (const file in files) {
       const formData = new FormData();
@@ -20,7 +20,7 @@ const Imgur = {
         .resize({ width: imgWidth, height: imgHeight });
       formData.append('image', imageBuffer);
       formData.append('album', process.env.ACCESS_ALBUM);
-      await axios({ ...options, data: formData })
+      axios({ ...options, data: formData })
         .then((res) => {
           imagesData.push({
             deleteHash: res.data.data.deletehash,
@@ -33,7 +33,7 @@ const Imgur = {
     }
     return imagesData;
   },
-  async delete(files) {
+  delete(files) {
     let result = '';
     for (const deleteHash in files) {
       const settings = {
@@ -43,7 +43,7 @@ const Imgur = {
           Authorization: `Bearer ${process.env.ACCESS_TOKEN}`
         },
       };
-      await axios(settings).then((response) => {
+      axios(settings).then((response) => {
         if (response.data.success) {
           result = '刪除成功';
         }

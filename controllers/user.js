@@ -5,7 +5,6 @@ const { handleSuccess, appError } = require('../service/handles');
 const { generateSendJWT } = require('../service/auth');
 const roles = require('../service/roles');
 const Imgur = require('../utils/imgur');
-const axios = require('axios');
 
 let tempData = {};
 
