@@ -1,194 +1,791 @@
 {
 	"info": {
-		"_postman_id": "d159f240-7910-43df-a28c-dd4ede96731f",
-		"name": "metawall - heroku",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"_postman_id": "6e3c77ef-d14f-4a6d-ab64-b5a862f05e9a",
+		"name": "metawall - Heroku",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19647886"
 	},
 	"item": [
 		{
-			"name": "『取得所有』貼文",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODA5MmJmZjY0Y2ZmYTU3Nzk4OTY3ZiIsImlhdCI6MTY1Mjc3NDEzMSwiZXhwIjoxNjUzMzc4OTMxfQ.1xN39xaTYD_Cry7qLDkGIDrqNMRRvuqcxyMyxfTGepU",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "https://metawall.herokuapp.com/posts",
-					"protocol": "https",
-					"host": [
-						"metawall",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"posts"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "『新增單筆』貼文",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODA5MmJmZjY0Y2ZmYTU3Nzk4OTY3ZiIsImlhdCI6MTY1Mjc3NDEzMSwiZXhwIjoxNjUzMzc4OTMxfQ.1xN39xaTYD_Cry7qLDkGIDrqNMRRvuqcxyMyxfTGepU",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "photos",
-							"type": "file",
-							"src": "/C:/Users/User/Pictures/recommend.jpg"
+			"name": "會員",
+			"item": [
+				{
+					"name": "使用者「註冊」",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"hex100\",\r\n  \"email\": \"hex100@gmail.com\",\r\n  \"password\": \"fffggg111\",\r\n  \"confirmPassword\": \"fffggg111\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
-						{
-							"key": "content",
-							"value": "好久不見的太陽!",
-							"type": "text"
+						"url": {
+							"raw": "{{API_URL}}/user/signup",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"user",
+								"signup"
+							]
 						}
-					]
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "https://metawall.herokuapp.com/posts",
-					"protocol": "https",
-					"host": [
-						"metawall",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"posts"
-					]
+				{
+					"name": "使用者「登入」",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"hex100@gmail.com\",\n    \"password\": \"fffggg111\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/user/signin",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"user",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "使用者「是否已登入」",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTk1NjBlYzdjMTVjODI0ZGMyODQ4OSIsImlhdCI6MTY1NDIxOTE3NiwiZXhwIjoxNjU0ODIzOTc2fQ.JIGtCZc8qqQoVUaSo7jaZSSCqJDuNIJy1UMiuXNpjU4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/user/check",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"user",
+								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "使用者「取得個人資料」",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTk1NjBlYzdjMTVjODI0ZGMyODQ4OSIsImlhdCI6MTY1NDIxNjIzNywiZXhwIjoxNjU0ODIxMDM3fQ.B0yloAkKrx2k5YtN8k6kXHf_MJgR6sA2X0J3K5JeoXw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/user/profile",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "使用者「修改密碼」",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTk1NjBlYzdjMTVjODI0ZGMyODQ4OSIsImlhdCI6MTY1NDIxNjIzNywiZXhwIjoxNjU0ODIxMDM3fQ.B0yloAkKrx2k5YtN8k6kXHf_MJgR6sA2X0J3K5JeoXw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"password\": \"fffggg111\",\r\n  \"confirmPassword\": \"fffggg111\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/user/updatePassword",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"user",
+								"updatePassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "使用者「修改個人資料」",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTk1NjBlYzdjMTVjODI0ZGMyODQ4OSIsImlhdCI6MTY1NDIxNjIzNywiZXhwIjoxNjU0ODIxMDM3fQ.B0yloAkKrx2k5YtN8k6kXHf_MJgR6sA2X0J3K5JeoXw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "六角666",
+									"type": "text"
+								},
+								{
+									"key": "sex",
+									"value": "male",
+									"type": "text"
+								},
+								{
+									"key": "photo",
+									"type": "file",
+									"src": "/Users/vic/Downloads/下載 (1).jpeg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{API_URL}}/user/profile",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "『刪除所有』貼文",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODA5MmJmZjY0Y2ZmYTU3Nzk4OTY3ZiIsImlhdCI6MTY1Mjc3NDEzMSwiZXhwIjoxNjUzMzc4OTMxfQ.1xN39xaTYD_Cry7qLDkGIDrqNMRRvuqcxyMyxfTGepU",
-							"type": "string"
+			"name": "會員追蹤",
+			"item": [
+				{
+					"name": "「已追蹤列表」使用者",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTk5ZjYwYTJjYjkxNjAxZGJmYWY2OSIsImlhdCI6MTY1NDIzNTEzNywiZXhwIjoxNjU0ODM5OTM3fQ.uxDsBg6jR21tQIXPtHvxOVJl6MZWOU530rHCAO24iSM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/user/followingList",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"user",
+								"followingList"
+							]
 						}
-					]
+					},
+					"response": []
 				},
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "https://metawall.herokuapp.com/posts/deleteAll",
-					"protocol": "https",
-					"host": [
-						"metawall",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"posts",
-						"deleteAll"
-					]
+				{
+					"name": "「被追蹤列表」使用者",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTc5YjZlMDc1ZjU2ZjcyNzc3MWNhNSIsImlhdCI6MTY1NDEwMjk2MCwiZXhwIjoxNjU0NzA3NzYwfQ.znaNGHzjc7CGofAuGga6zgEZ8kgIEvMVDpyFCNNwuoY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/user/6299560ec7c15c824dc28489/followersList",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"user",
+								"6299560ec7c15c824dc28489",
+								"followersList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "「檢查是否已追蹤」使用者",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTc5YjZlMDc1ZjU2ZjcyNzc3MWNhNSIsImlhdCI6MTY1NDEwMjk2MCwiZXhwIjoxNjU0NzA3NzYwfQ.znaNGHzjc7CGofAuGga6zgEZ8kgIEvMVDpyFCNNwuoY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/user/6299560ec7c15c824dc28489/checkFollow",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"user",
+								"6299560ec7c15c824dc28489",
+								"checkFollow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "「追蹤」使用者",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTc5YjZlMDc1ZjU2ZjcyNzc3MWNhNSIsImlhdCI6MTY1NDEwMjk2MCwiZXhwIjoxNjU0NzA3NzYwfQ.znaNGHzjc7CGofAuGga6zgEZ8kgIEvMVDpyFCNNwuoY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"六角超人\",\r\n  \"email\": \"hexsuperman@gmail.com\",\r\n  \"avatar\": \"https://thumb.fakeface.rest/thumb_female_27_5a94a297efb15caf0e3d769ce1694953e8bf33e2.jpg\",\r\n  \"password\": \"hexsuperman2019\",\r\n  \"confirmPassword\": \"hexsuperman2019\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/user/62977982575649dab537ee3d/follow",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"user",
+								"62977982575649dab537ee3d",
+								"follow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "「退追蹤」使用者",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTc5YjZlMDc1ZjU2ZjcyNzc3MWNhNSIsImlhdCI6MTY1NDEwMjk2MCwiZXhwIjoxNjU0NzA3NzYwfQ.znaNGHzjc7CGofAuGga6zgEZ8kgIEvMVDpyFCNNwuoY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"六角超人\",\r\n  \"email\": \"hexsuperman@gmail.com\",\r\n  \"avatar\": \"https://thumb.fakeface.rest/thumb_female_27_5a94a297efb15caf0e3d769ce1694953e8bf33e2.jpg\",\r\n  \"password\": \"hexsuperman2019\",\r\n  \"confirmPassword\": \"hexsuperman2019\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/user/62977982575649dab537ee3d/unFollow",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"user",
+								"62977982575649dab537ee3d",
+								"unFollow"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "『刪除單筆』貼文",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODA5MmJmZjY0Y2ZmYTU3Nzk4OTY3ZiIsImlhdCI6MTY1Mjc3NDEzMSwiZXhwIjoxNjUzMzc4OTMxfQ.1xN39xaTYD_Cry7qLDkGIDrqNMRRvuqcxyMyxfTGepU",
-							"type": "string"
+			"name": "貼文",
+			"item": [
+				{
+					"name": "『取得所有』貼文",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTk1NjBlYzdjMTVjODI0ZGMyODQ4OSIsImlhdCI6MTY1NDIxNjIzNywiZXhwIjoxNjU0ODIxMDM3fQ.B0yloAkKrx2k5YtN8k6kXHf_MJgR6sA2X0J3K5JeoXw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{API_URL}}/posts",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"posts"
+							]
 						}
-					]
+					},
+					"response": []
 				},
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "https://metawall.herokuapp.com/posts/delete/62639d730454f9102af776fc",
-					"protocol": "https",
-					"host": [
-						"metawall",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"posts",
-						"delete",
-						"62639d730454f9102af776fc"
-					]
+				{
+					"name": "『取得單筆』貼文",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTc5YjZlMDc1ZjU2ZjcyNzc3MWNhNSIsImlhdCI6MTY1NDEwMjk2MCwiZXhwIjoxNjU0NzA3NzYwfQ.znaNGHzjc7CGofAuGga6zgEZ8kgIEvMVDpyFCNNwuoY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{API_URL}}/posts/6299574cc7c15c824dc284a3",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"posts",
+								"6299574cc7c15c824dc284a3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "『新增單筆』貼文",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTk1NjBlYzdjMTVjODI0ZGMyODQ4OSIsImlhdCI6MTY1NDIxNjIzNywiZXhwIjoxNjU0ODIxMDM3fQ.B0yloAkKrx2k5YtN8k6kXHf_MJgR6sA2X0J3K5JeoXw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "photos",
+									"type": "file",
+									"src": "/Users/vic/Downloads/下載 (1).jpeg"
+								},
+								{
+									"key": "content",
+									"value": "通靈中",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{API_URL}}/posts",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "『刪除所有』貼文",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTc5YjZlMDc1ZjU2ZjcyNzc3MWNhNSIsImlhdCI6MTY1NDEwMjk2MCwiZXhwIjoxNjU0NzA3NzYwfQ.znaNGHzjc7CGofAuGga6zgEZ8kgIEvMVDpyFCNNwuoY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/posts/deleteAll",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"posts",
+								"deleteAll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "『刪除單筆』貼文",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTc5YjZlMDc1ZjU2ZjcyNzc3MWNhNSIsImlhdCI6MTY1NDEwMjk2MCwiZXhwIjoxNjU0NzA3NzYwfQ.znaNGHzjc7CGofAuGga6zgEZ8kgIEvMVDpyFCNNwuoY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/posts/delete/6278c7094ea5b7738598674e",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"posts",
+								"delete",
+								"6278c7094ea5b7738598674e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "『編輯單筆』貼文",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTc5YjZlMDc1ZjU2ZjcyNzc3MWNhNSIsImlhdCI6MTY1NDEwMjk2MCwiZXhwIjoxNjU0NzA3NzYwfQ.znaNGHzjc7CGofAuGga6zgEZ8kgIEvMVDpyFCNNwuoY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user\": \"6295aa584f58d6543b12c3e6\",\n    \"content\": \"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/posts/6299574cc7c15c824dc284a3",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"posts",
+								"6299574cc7c15c824dc284a3"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "『編輯單筆』貼文",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODA5MmJmZjY0Y2ZmYTU3Nzk4OTY3ZiIsImlhdCI6MTY1Mjc3NDEzMSwiZXhwIjoxNjUzMzc4OTMxfQ.1xN39xaTYD_Cry7qLDkGIDrqNMRRvuqcxyMyxfTGepU",
-							"type": "string"
+			"name": "貼文留言",
+			"item": [
+				{
+					"name": "對貼文留言",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTc5YjZlMDc1ZjU2ZjcyNzc3MWNhNSIsImlhdCI6MTY1NDEwMjk2MCwiZXhwIjoxNjU0NzA3NzYwfQ.znaNGHzjc7CGofAuGga6zgEZ8kgIEvMVDpyFCNNwuoY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"comment\": \"這麼厲害\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/posts/6299574cc7c15c824dc284a3/comment",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"posts",
+								"6299574cc7c15c824dc284a3",
+								"comment"
+							]
 						}
-					]
+					},
+					"response": []
 				},
-				"method": "PATCH",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"user\": \"626d2625ebb944525a6b8b24\",\n    \"image\": \"https://images.unsplash.com/photo-1648737119359-510d4f551382?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1472&q=80\",\n    \"content\": \"cc\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "刪除貼文留言",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTc5YjZlMDc1ZjU2ZjcyNzc3MWNhNSIsImlhdCI6MTY1NDEwMjk2MCwiZXhwIjoxNjU0NzA3NzYwfQ.znaNGHzjc7CGofAuGga6zgEZ8kgIEvMVDpyFCNNwuoY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"comment\": \"留言測試3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/posts/62995f41c7c15c824dc28506/comment",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"posts",
+								"62995f41c7c15c824dc28506",
+								"comment"
+							]
 						}
-					}
-				},
-				"url": {
-					"raw": "https://metawall.herokuapp.com/posts/6278c79a124948ef4dc7d8ed",
-					"protocol": "https",
-					"host": [
-						"metawall",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"posts",
-						"6278c79a124948ef4dc7d8ed"
-					]
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
+		},
+		{
+			"name": "貼文按讚",
+			"item": [
+				{
+					"name": "「按讚/退讚」",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTc5YjZlMDc1ZjU2ZjcyNzc3MWNhNSIsImlhdCI6MTY1NDEwMjk2MCwiZXhwIjoxNjU0NzA3NzYwfQ.znaNGHzjc7CGofAuGga6zgEZ8kgIEvMVDpyFCNNwuoY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/posts/6299574cc7c15c824dc284a3/likes",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"posts",
+								"6299574cc7c15c824dc284a3",
+								"likes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "「個人按讚列表」",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTc5YjZlMDc1ZjU2ZjcyNzc3MWNhNSIsImlhdCI6MTY1NDEwMjk2MCwiZXhwIjoxNjU0NzA3NzYwfQ.znaNGHzjc7CGofAuGga6zgEZ8kgIEvMVDpyFCNNwuoY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/posts/user/likeList",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"posts",
+								"user",
+								"likeList"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Error 404",
@@ -196,241 +793,12 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "https://metawall.herokuapp.com/wqew",
-					"protocol": "https",
+					"raw": "{{API_URL}}/wqew",
 					"host": [
-						"metawall",
-						"herokuapp",
-						"com"
+						"{{API_URL}}"
 					],
 					"path": [
 						"wqew"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "「註冊」使用者",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"name\": \"六角超人3\",\r\n  \"email\": \"hexsuperman3@gmail.com\",\r\n  \"avatar\": \"https://thumb.fakeface.rest/thumb_female_27_5a94a297efb15caf0e3d769ce1694953e8bf33e2.jpg\",\r\n  \"password\": \"hexsuperman2024\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://metawall.herokuapp.com/user/signup",
-					"protocol": "https",
-					"host": [
-						"metawall",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"user",
-						"signup"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "「登入」使用者",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"email\": \"hexsuperman@gmail.com\",\r\n  \"password\": \"hexsuperman2023\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://metawall.herokuapp.com/user/signin",
-					"protocol": "https",
-					"host": [
-						"metawall",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"user",
-						"signin"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "「是否已登入」使用者",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODA5MmJmZjY0Y2ZmYTU3Nzk4OTY3ZiIsImlhdCI6MTY1Mjc4MDQ5NCwiZXhwIjoxNjUzMzg1Mjk0fQ.n6yI5w3pyoMeLoXPPHi-6T2RDwaUHGmU4jvQKhEzDM8",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://metawall.herokuapp.com/user/check",
-					"protocol": "https",
-					"host": [
-						"metawall",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"user",
-						"check"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "「取得資料」使用者",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODA5MmJmZjY0Y2ZmYTU3Nzk4OTY3ZiIsImlhdCI6MTY1Mjc4MDQ5NCwiZXhwIjoxNjUzMzg1Mjk0fQ.n6yI5w3pyoMeLoXPPHi-6T2RDwaUHGmU4jvQKhEzDM8",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://metawall.herokuapp.com/user/profile",
-					"protocol": "https",
-					"host": [
-						"metawall",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"user",
-						"profile"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "「登入並修改密碼」使用者",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODA5MmJmZjY0Y2ZmYTU3Nzk4OTY3ZiIsImlhdCI6MTY1Mjc4MDQ5NCwiZXhwIjoxNjUzMzg1Mjk0fQ.n6yI5w3pyoMeLoXPPHi-6T2RDwaUHGmU4jvQKhEzDM8",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"password\": \"hexsuperman2023\",\r\n  \"confirmPassword\": \"hexsuperman2023\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://metawall.herokuapp.com/user/updatePassword",
-					"protocol": "https",
-					"host": [
-						"metawall",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"user",
-						"updatePassword"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "「登入並修改個人資料」使用者",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODA5MmJmZjY0Y2ZmYTU3Nzk4OTY3ZiIsImlhdCI6MTY1Mjc4MDQ5NCwiZXhwIjoxNjUzMzg1Mjk0fQ.n6yI5w3pyoMeLoXPPHi-6T2RDwaUHGmU4jvQKhEzDM8",
-							"type": "string"
-						}
-					]
-				},
-				"method": "PATCH",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"name\": \"hexsuperman\",\r\n  \"sex\": \"male\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://metawall.herokuapp.com/user/profile",
-					"protocol": "https",
-					"host": [
-						"metawall",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"user",
-						"profile"
 					]
 				}
 			},
