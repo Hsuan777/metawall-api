@@ -25,7 +25,7 @@ require('./connections');
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: `${process.env.CALLBACK_HOST}/user/google/callback`
+    callbackURL: `${process.env.API_CALLBACK_HOST}/user/google/callback`
   },
   function (accessToken, refreshToken, profile, cb) {
     return cb(null, profile._json);

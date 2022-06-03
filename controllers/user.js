@@ -50,7 +50,7 @@ const user = {
   },
   async thirdPartySignin(provider, data, res) {
     tempData = {};
-    const webSiteCallbackUrl = `${process.env.CALLBACK_HOST}/#/callback`;
+    const webSiteCallbackUrl = `${process.env.WEB_CALLBACK_HOST}/#/callback`;
     const user = await User.findOne({ email: data.email });
     const onceToken = uuid.v4();
     const onceTokenHash = await bcrypt.hash(await onceToken, 12);
