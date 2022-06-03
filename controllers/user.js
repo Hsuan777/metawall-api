@@ -50,9 +50,8 @@ const user = {
   },
   async thirdPartySignin(provider, data, res) {
     tempData = {};
-    const webSiteCallbackUrl = 'http://localhost:3000/#/callback'
+    const webSiteCallbackUrl = `${process.env.CALLBACK_HOST}/#/callback`;
     const user = await User.findOne({ email: data.email });
-    console.log(user);
     const onceToken = uuid.v4();
     const onceTokenHash = await bcrypt.hash(await onceToken, 12);
     tempData.onceToken = onceToken;
@@ -216,7 +215,7 @@ const user = {
   },
   async checkFollow(req, res, next) {
     const findFollowingResult = await User.findOne(
-      // 查詢 自己的 id 且 追蹤的名單是否有對方的 id
+      // 查詢 自己追蹤的名單是否有對方的 id
       {
         _id: req.user.id,
         'following.user': { $in: req.params.id }
